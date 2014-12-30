@@ -5,7 +5,7 @@
 * Copyright (c) 2014 Tao Yuan.
 * Licensed MIT 
 * 
-* Date: 2014-12-30 23:45
+* Date: 2014-12-30 23:51
 ***********************************************/
 // Only expose a single object name in the global namespace.
 // Everything must go through this module. Global Paho.MQTT module
@@ -73,7 +73,7 @@
  */
 
 if (typeof Paho === "undefined") {
-  Paho =Paho|| {};
+  Paho = {};
 }
 
 Paho.MQTT = (function (global) {
@@ -2114,10 +2114,10 @@ exports.initialize = function initialize(socket, utils) {
     settings.port = Number(settings.port || (opts.useSSL ? defaultSecurePort : defaultPort));
 
     var client = socket.client = new Paho.MQTT.Client(settings.host, settings.port, clientId);
-    socket.adapter = new Paho(client, opts);
+    socket.adapter = new PahoClient(client, opts);
 }
 
-function Paho(client, opts) {
+function PahoClient(client, opts) {
     this.client = client;
 
     var adapter = this;
@@ -2136,31 +2136,31 @@ function Paho(client, opts) {
     client.connect(opts);
 }
 
-Emitter.extend(Paho);
+Emitter.extend(PahoClient);
 
-Paho.prototype.__defineGetter__('connected', function () {
+PahoClient.prototype.__defineGetter__('connected', function () {
     return this.client.connected;
 });
 
-Paho.prototype.subscribe = function (topic, opts, cb) {
+PahoClient.prototype.subscribe = function (topic, opts, cb) {
     opts = opts || {};
     if (cb) opts.onSuccess = cb;
     return this.client.subscribe(topic, opts);
 };
 
-Paho.prototype.unsubscribe = function (topic, opts, cb) {
+PahoClient.prototype.unsubscribe = function (topic, opts, cb) {
     opts = opts || {};
     if (cb) opts.onSuccess = cb;
     return this.client.unsubscribe(topic, opts);
 };
 
-Paho.prototype.publish = function (topic, message) {
+PahoClient.prototype.publish = function (topic, message) {
     var m = new Paho.MQTT.Message(message);
     m.destinationName = topic;
     return this.client.send(m);
 };
 
-Paho.prototype.close = function () {
+PahoClient.prototype.close = function () {
     return this.client.disconnect();
 };
 
