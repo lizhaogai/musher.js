@@ -5,7 +5,7 @@
 * Copyright (c) 2014 Tao Yuan.
 * Licensed MIT 
 * 
-* Date: 2014-12-30 23:40
+* Date: 2014-12-30 23:45
 ***********************************************/
 // Only expose a single object name in the global namespace.
 // Everything must go through this module. Global Paho.MQTT module
@@ -73,7 +73,7 @@
  */
 
 if (typeof Paho === "undefined") {
-  Paho = {};
+  Paho =Paho|| {};
 }
 
 Paho.MQTT = (function (global) {
