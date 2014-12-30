@@ -5,7 +5,7 @@
 * Copyright (c) 2014 Tao Yuan.
 * Licensed MIT 
 * 
-* Date: 2014-12-30 23:26
+* Date: 2014-12-30 23:40
 ***********************************************/
 // Only expose a single object name in the global namespace.
 // Everything must go through this module. Global Paho.MQTT module
@@ -2113,7 +2113,7 @@ exports.initialize = function initialize(socket, utils) {
 
     settings.port = Number(settings.port || (opts.useSSL ? defaultSecurePort : defaultPort));
 
-    var client = socket.client = new Messaging.Client(settings.host, settings.port, clientId);
+    var client = socket.client = new Paho.MQTT.Client(settings.host, settings.port, clientId);
     socket.adapter = new Paho(client, opts);
 }
 
@@ -2155,7 +2155,7 @@ Paho.prototype.unsubscribe = function (topic, opts, cb) {
 };
 
 Paho.prototype.publish = function (topic, message) {
-    var m = new Messaging.Message(message);
+    var m = new Paho.MQTT.Message(message);
     m.destinationName = topic;
     return this.client.send(m);
 };
