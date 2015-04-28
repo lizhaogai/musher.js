@@ -5,7 +5,7 @@
 * Copyright (c) 2015 Tao Yuan.
 * Licensed MIT 
 * 
-* Date: 2015-04-28 16:17
+* Date: 2015-04-28 16:22
 ***********************************************/
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.musher=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Socket = require('./lib/socket');
@@ -149,7 +149,7 @@ Channel.prototype.unsubscribe = function (cb) {
 Channel.prototype._handleMessage = function (message, route) {
     message = JSON.parse(message);
     var event = message.__event__ || route.params.event || 'message';
-    var data = message.__data__ == undefined || message.__data__ == null ? message.__data__ : message;
+    var data = message.__data__ == undefined || message.__data__ == null ? message : message.__data__;
     this.emit(event, data, route);
 };
 

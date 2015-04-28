@@ -5,7 +5,7 @@
 * Copyright (c) 2015 Tao Yuan.
 * Licensed MIT 
 * 
-* Date: 2015-04-28 16:17
+* Date: 2015-04-28 16:22
 ***********************************************/
 // Only expose a single object name in the global namespace.
 // Everything must go through this module. Global Paho.MQTT module
@@ -2144,7 +2144,7 @@ Channel.prototype.unsubscribe = function (cb) {
 Channel.prototype._handleMessage = function (message, route) {
     message = JSON.parse(message);
     var event = message.__event__ || route.params.event || 'message';
-    var data = message.__data__ == undefined || message.__data__ == null ? message.__data__ : message;
+    var data = message.__data__ == undefined || message.__data__ == null ? message : message.__data__;
     this.emit(event, data, route);
 };
 
