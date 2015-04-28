@@ -2,10 +2,10 @@
 * Musher Javascript and Node.js Library v0.1.4
 * https://github.com/taoyuan/musher
 * 
-* Copyright (c) 2014 Tao Yuan.
+* Copyright (c) 2015 Tao Yuan.
 * Licensed MIT 
 * 
-* Date: 2014-12-30 23:58
+* Date: 2015-04-28 16:17
 ***********************************************/
 // Only expose a single object name in the global namespace.
 // Everything must go through this module. Global Paho.MQTT module
@@ -2144,7 +2144,7 @@ Channel.prototype.unsubscribe = function (cb) {
 Channel.prototype._handleMessage = function (message, route) {
     message = JSON.parse(message);
     var event = message.__event__ || route.params.event || 'message';
-    var data = message.__data__ || message;
+    var data = message.__data__ == undefined || message.__data__ == null ? message.__data__ : message;
     this.emit(event, data, route);
 };
 
@@ -2693,7 +2693,7 @@ Socket.prototype.publish = function (topic, event, data) {
 Socket.prototype._publish = function (topic, event, data) {
     if (!topic) throw new Error('`topic` must not be null');
     if (!event) throw new Error('`event` must not be null');
-    if (!data) throw new Error('`data` must not be null');
+    if (data == undefined || data == null) throw new Error('`data` must not be null');
 
     var message = JSON.stringify({__event__: event, __data__: data});
     this.adapter.publish(this._wrap(topic), message);
